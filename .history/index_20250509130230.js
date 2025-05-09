@@ -3,8 +3,7 @@ const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
-  res.send('Stapping!');
-  res.send('Versione aggiornata basata su express.js (derivato da node js)')
+  res.send('Stapping!')
 })
 
 app.listen(port, () => {
