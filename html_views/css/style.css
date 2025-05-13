@@ -3,7 +3,7 @@ body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     width: 100%;
    background-color: #d781267e;
 }
@@ -71,4 +71,40 @@ body{
 #right p{
     position: absolute;
     right: 0;
+}
+
+
+
+
+
+.container-stapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+    padding: 5px;
+    border: 2px solid blue;
+    border-radius: 10px;
+    background-color: white;
+    -webkit-box-shadow: inset 5px 5px 15px 5px #000000; 
+    box-shadow: inset 5px 5px 15px 5px #000000;
+}
+
+.container-stapper > p{
+    margin: 0;
+}
+
+.titolo-stapper{
+    
+}
+
+.goduria-stapper{
+
+}
+
+.reperibilita-stapper{
+
 }
