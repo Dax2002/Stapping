@@ -58,9 +58,9 @@ const db = pgp({
 });
 
 // select and return a single user name from id:
-db.one('SELECT nome FROM utenti WHERE id = $1', [1])
-    .then(utenti => {
-        console.log(utenti.nome); // print user name;
+db.one('SELECT nome FROM utenti WHERE id = $1', [123])
+    .then(user => {
+        console.log(user.name); // print user name;
     })
     .catch(error => {
         console.log(error); // print the error;

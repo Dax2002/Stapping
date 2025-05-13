@@ -52,15 +52,21 @@ app.listen(PORT, () => {
 
 const pgp = require('pg-promise')(/* initialization options */);
 
-const db = pgp({
-      connectionString: 'postgresql://dario:g6XQYGJnC4a19ArO46KqBZ5IyQviNXN5@dpg-d0cs0d6mcj7s73at6pc0-a.frankfurt-postgres.render.com/stappingdb',
-      ssl: { rejectUnauthorized: false } // Render richiede SSL
-});
+const cn = {
+    host: 'dpg-d0cs0d6mcj7s73at6pc0-a.frankfurt-postgres.render.com/stappingdb', // server name or IP address;
+    hostname: 'dpg-d0cs0d6mcj7s73at6pc0-a.frankfurt-postgres.render.com/stappingdb',
+    port: 5432,
+    database: 'stappingdb',
+    user: 'dario',
+    password: 'g6XQYGJnC4a19ArO46KqBZ5IyQviNXN5'
+};
+
+const db = pgp(cn); // database instance;
 
 // select and return a single user name from id:
-db.one('SELECT nome FROM utenti WHERE id = $1', [1])
-    .then(utenti => {
-        console.log(utenti.nome); // print user name;
+db.one('SELECT name FROM utenti WHERE id = $1', [123])
+    .then(user => {
+        console.log(user.name); // print user name;
     })
     .catch(error => {
         console.log(error); // print the error;
