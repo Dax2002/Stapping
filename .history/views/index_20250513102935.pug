@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  script.
+    function chiamaBackend() {
+      fetch('/esegui-funzione', {
+        method: 'POST'
+      })
+      .then(response => response.text())
+      .then(data => alert(data))
+      .catch(error => console.error('Errore:', error));
+    }
+  button(type="button" onclick="chiamaBackend()") Esegui funzione backend
+
+
