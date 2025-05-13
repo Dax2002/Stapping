@@ -1,0 +1,74 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+   background-color: #d781267e;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%; /* Espande il contenitore a tutta la larghezza */
+    max-width: 100%; /* Assicura che non ci siano limiti di larghezza */
+    margin: 0; /* Rimuove eventuali margini */
+    padding: 0; /* Rimuove eventuali padding */
+}
+
+.navbar{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: #e1d178e0;
+}
+
+.boxes {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Espande i box a tutta la larghezza */
+    margin-top: 20px; /* Alza leggermente i box */
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px; /* Aggiunge spazio interno per un aspetto migliore */
+    height: auto;
+    width: 100%; /* Assicura che ogni box occupi tutta la larghezza */
+    box-sizing: border-box; /* Include padding e bordi nella larghezza totale */
+}
+
+.info.left {
+    flex-direction: row;
+    background-color: rgba(245, 245, 220, 0.767); /* Beige chiaro */
+}
+
+.info.right {
+    flex-direction: row-reverse;
+    background-color:#EABE7C; /* Beige scuro */
+}
+
+.info img {
+    width: 100px; /* Dimensione uniforme per tutte le immagini */
+    height: 100px;
+    margin: 0 10px;
+}
+
+.info p {
+    margin: 0;
+    font-size: 16px;
+}
+
+#right{
+    display: flex;
+    justify-content: end;
+}
+
+#right p{
+    position: absolute;
+    right: 0;
+}
