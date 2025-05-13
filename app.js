@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/', indexRouter);
+//app.use('/users', usersRouter);
+app.use(express.static(__dirname + '/html_views'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,17 +41,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.post('/esegui-funzione', (req, res) => {
-  console.log('Funzione eseguita dal backend!');
-  res.send('Funzione eseguita con successo!');
-});
-
 module.exports = app;
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server in ascolto su porta ${PORT}`);
-});
+//const PORT = process.env.PORT || 3000;
+//app.listen(PORT, () => {
+//  console.log(`Server in ascolto su porta ${PORT}`);
+//});
 
 
 
@@ -62,6 +58,8 @@ const db = pgp({
       ssl: { rejectUnauthorized: false } // Render richiede SSL
 });
 
+
+
 // select and return a single user name from id:
 db.one('SELECT nome FROM utenti WHERE id = $1', [1])
     .then(utenti => {
@@ -70,5 +68,7 @@ db.one('SELECT nome FROM utenti WHERE id = $1', [1])
     .catch(error => {
         console.log(error); // print the error;
     });
+
+    
 
 
