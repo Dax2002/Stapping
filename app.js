@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const { hostname } = require('os');
 
 
@@ -19,16 +18,90 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', indexRouter);
-//app.use('/users', usersRouter);
-app.use(express.static(__dirname + '/html_views'));
+// Serve la cartella html_views
+app.use(express.static(path.join(__dirname, 'html_views')));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+
+
+
+// Homepage
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'html_views/index.html'));
 });
+
+
+
+//Inizio funzioni JS Server side---------------
+const pgp = require('pg-promise')(/* initialization options */);
+
+const db = pgp({
+      connectionString: 'postgresql://dario:g6XQYGJnC4a19ArO46KqBZ5IyQviNXN5@dpg-d0cs0d6mcj7s73at6pc0-a.frankfurt-postgres.render.com/stappingdb',
+      ssl: { rejectUnauthorized: false } // Render richiede SSL
+});
+
+app.post('/esegui-query', async (req, res) => {
+  try {
+    console.log('POST /esegui-query ricevuto');
+    db.many('SELECT * FROM stappers')
+    .then(stappers => {
+        console.log(stappers);
+        console.log(stappers.length);
+        res.json(stappers);
+    })
+    .catch(error => {
+        console.log(error); 
+    });
+    
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errore: 'Errore nella query' });
+  }
+});
+
+  
+app.post('/query-inserimento', async (req, res) => {
+  try {
+    console.log('POST /query-inserimento ricevuto');
+
+
+    var nome = req.body.nome;
+    var goduria = req.body.goduria;
+    var reperibilita = req.body.reperibilita;
+    var stappatore = req.body.stappatore;
+    console.log({ nome, goduria, reperibilita, stappatore });
+
+    db.one("INSERT INTO stappers (nome,goduria,reperibilita,stappatore) VALUES ('"+ nome + "'," +goduria+","+reperibilita+",'"+stappatore+"') RETURNING id")
+    .then(stappers => {
+        res.json({ success: true });
+    })
+    .catch(error => {
+        console.log(error); 
+    });
+    
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errore: 'Errore nella query' });
+  }
+});
+
+
+
+
+//Fine funzioni JS Server side---------------
+
+
+
+
+
+
+
+
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -41,34 +114,23 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+
 module.exports = app;
 
-//const PORT = process.env.PORT || 3000;
-//app.listen(PORT, () => {
-//  console.log(`Server in ascolto su porta ${PORT}`);
-//});
-
-
-
-
-const pgp = require('pg-promise')(/* initialization options */);
-
-const db = pgp({
-      connectionString: 'postgresql://dario:g6XQYGJnC4a19ArO46KqBZ5IyQviNXN5@dpg-d0cs0d6mcj7s73at6pc0-a.frankfurt-postgres.render.com/stappingdb',
-      ssl: { rejectUnauthorized: false } // Render richiede SSL
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server in ascolto su porta ${PORT}`);
 });
 
 
 
-// select and return a single user name from id:
-db.one('SELECT nome FROM utenti WHERE id = $1', [1])
-    .then(utenti => {
-        console.log(utenti.nome); // print user name;
-    })
-    .catch(error => {
-        console.log(error); // print the error;
-    });
-
     
 
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+    

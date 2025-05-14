@@ -26,10 +26,59 @@
               <li class="nav-item">
                 <a class="nav-link" href="about.html">About Us</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="inserimento.html">Inserimento</a>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
+
+      
+      <button id="buttonQueryTest">Esegui Query</button>
+
+      <script>
+        document.getElementById('buttonQueryTest').addEventListener('click', async () => {
+          try {
+            const response = await fetch('/esegui-query', {
+              method: 'POST',
+            });
+            const stappers = await response.json();
+            
+            var containerStappers = document.getElementById('containerStappers');
+            while (containerStappers.firstChild) {
+              containerStappers.removeChild(containerStappers.lastChild);
+            }
+            stappers.forEach(stapper => {
+              var stapperDiv = document.createElement('div');
+              stapperDiv.className = 'stapper';
+              var stapperNome = document.createElement('p');
+              stapperNome.className = 'stapperNome';
+              stapperNome.textContent = stapper.nome;
+              var stapperGoduria = document.createElement('p');
+              stapperGoduria.className = 'stapperGoduria';
+              stapperGoduria.textContent = 'Goduria: ' + stapper.goduria;
+              var stapperReperibilita = document.createElement('p');
+              stapperReperibilita.className = 'stapperReperibilita';
+              stapperReperibilita.textContent = 'Reperibilità: ' + stapper.reperibilita;
+              var stapperStappatore = document.createElement('p');
+              stapperStappatore.className = 'stapperStappatore';
+              stapperStappatore.textContent = 'Stappatore: ' + stapper.stappatore;
+              containerStappers.appendChild(stapperDiv);
+
+              stapperDiv.appendChild(stapperNome);
+              stapperDiv.appendChild(stapperGoduria);
+              stapperDiv.appendChild(stapperReperibilita);
+              stapperDiv.appendChild(stapperStappatore);
+
+
+            });
+          } catch (err) {
+            console.error('Errore durante la richiesta', err);
+          }
+        });
+      </script>
+      <div id="containerStappers"></div>
     
 </body>
 </html>
